@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Brand Wall</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 10px;
+        }
+        .slot {
+            border: 1px solid #ccc;
+            padding: 10px;
+            height: 120px;
+            text-align: center;
+            background-color: #f9f9f9;
+        }
+        .slot img {
+            max-width: 100%;
+            max-height: 100px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .btn {
+            text-decoration: none;
+            background: #333;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>Welcome to the Brand Wall</h1>
+    <a href="/login" class="btn">Admin Login</a>
+</div>
+
+<div class="grid">
+    {% for image in slots %}
+    <div class="slot">
+        {% if image %}
+            <img src="{{ url_for('uploaded_file', filename=image) }}" alt="Brand">
+        {% else %}
+            <p>Available for Rent</p>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+
+</body>
+</html>
