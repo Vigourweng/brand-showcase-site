@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Brand Wall</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .contact {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 10px;
+            margin-top: 30px;
+        }
+        .box {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            background-color: #f3f3f3;
+            border: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 14px;
+        }
+        .box img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        .admin-btn {
+            padding: 10px 20px;
+            background-color: #222;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="contact">Contact: vigourweng1@gmail.com | +27 73584 1544</div>
+        {% if session.admin %}
+        <a href="/admin" class="admin-btn">Admin Dashboard</a>
+        {% endif %}
+    </div>
+
+    <h1>Welcome to the Brand Wall</h1>
+
+    <div class="grid">
+        {% for slot in slots %}
+            <div class="box">
+                {% if slot %}
+                    <img src="{{ url_for('uploaded_file', filename=slot) }}" alt="Brand">
+                {% else %}
+                    Available for Rent
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
