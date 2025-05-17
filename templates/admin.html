@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .logout {
+            float: right;
+            margin-bottom: 20px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 15px;
+        }
+        .slot {
+            border: 1px solid #ccc;
+            padding: 10px;
+            height: 140px;
+            text-align: center;
+            background-color: #f9f9f9;
+            position: relative;
+        }
+        .slot img {
+            max-width: 100%;
+            max-height: 90px;
+            margin-bottom: 5px;
+        }
+        .remove-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 12px;
+            border-radius: 3px;
+        }
+        form {
+            margin-top: 5px;
+        }
+        select, input[type="file"], input[type="submit"] {
+            margin-top: 5px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<a href="{{ url_for('logout') }}" class="logout">Logout</a>
+<h1>Admin Dashboard</h1>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <p style="color:green;">{{ messages[0] }}</p>
+  {% endif %}
+{% endwith %}
+
+<div class="grid">
+    {% for i in range(1, 101) %}
+    <div class="slot">
+        <strong>Slot #{{ i }}</strong><br>
+        {% if slots[i-1] %}
+            <img src="{{ url_for('uploaded_file', filename=slots[i-1]) }}" alt="Brand"><br>
+            <a href="{{ url_for('remove', slot=i) }}">
+                <button class="remove-btn">Remove</button>
+            </a>
+        {% else %}
+            <p>Empty Slot</p>
+        {% endif %}
+        <form method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="slot_number" value="{{ i }}">
+            <input type="file" name="brand_image" accept="image/*" required><br>
+            <input type="submit" value="Upload">
+        </form>
+    </div>
+    {% endfor %}
+</div>
+
+</body>
+</html>
